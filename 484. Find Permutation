@@ -21,4 +21,47 @@ Explanation: Both [2,1,3] and [3,1,2] can be represented as "DI", but since we w
 Constraints:
 
 1 <= s.length <= 105
-s[i] is either 'I' or 'D'.
+s[i] is either 'I' or 'D'. 
+
+
+
+class Solution {
+public:
+    //assume all are 'I', so insert increasing order. 'D' means decreasing, so reverse.
+    vector<int> findPermutation(string s) {
+       vector<int>vv;
+        int n=s.size();
+        for(int i=1;i<=n+1;i++)
+        {
+            vv.emplace_back(i);
+        }
+        
+        int cnt=0,start=-1;
+        for(int i=0;i<n;i++)
+        {
+            if(s[i]=='D')
+            {
+                if(start==-1)
+                    start=i;
+                cnt++;
+            }
+            else if(cnt)
+            {
+                reverse(vv.begin()+start,vv.begin()+start+cnt+1);
+                cnt=0;start=-1;
+            }
+        }
+        if(cnt)
+        {
+            reverse(vv.begin()+start,vv.begin()+start+cnt+1);
+        }
+        return vv;
+    }
+};
+
+
+Time complexity : 
+O(n). The resultant array of size n is traversed atmost three times, in the worst case e.g. "DDDDDD"
+
+Space complexity : 
+O(1). Constant extra space is used
