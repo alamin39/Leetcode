@@ -1,0 +1,55 @@
+Assume the following rules are for the tic-tac-toe game on an n x n board between two players:
+
+A move is guaranteed to be valid and is placed on an empty block.
+Once a winning condition is reached, no more moves are allowed.
+A player who succeeds in placing n of their marks in a horizontal, vertical, or diagonal row wins the game.
+Implement the TicTacToe class:
+
+TicTacToe(int n) Initializes the object the size of the board n.
+int move(int row, int col, int player) Indicates that the player with id player plays at the cell (row, col) of the board. The move is guaranteed to be a valid move, and the two players alternate in making moves. Return
+0 if there is no winner after the move,
+1 if player 1 is the winner after the move, or
+2 if player 2 is the winner after the move.
+ 
+Example 1:
+
+Input
+["TicTacToe", "move", "move", "move", "move", "move", "move", "move"]
+[[3], [0, 0, 1], [0, 2, 2], [2, 2, 1], [1, 1, 2], [2, 0, 1], [1, 0, 2], [2, 1, 1]]
+Output
+[null, 0, 0, 0, 0, 0, 0, 1]
+
+
+Soln:
+
+class TicTacToe {
+    var rows = [Int]()
+    var cols = [Int]()
+    var digonal=0,antiDigonal=0
+    var boardSize = 0
+
+    init(_ n: Int) {
+        boardSize = n
+        rows = Array(repeating: 0, count: n)
+        cols = Array(repeating: 0, count: n)
+    }
+    
+    func move(_ row: Int, _ col: Int, _ player: Int) -> Int {
+        let val = player==1 ? 1:-1
+        rows[row] += val
+        cols[col] += val
+        if row == col {
+            digonal += val
+        }
+
+        if row+col == boardSize-1 {
+            antiDigonal += val
+        }
+        
+        if boardSize == abs(digonal) || boardSize == abs(antiDigonal) ||
+        abs(rows[row]) == boardSize || abs(cols[col]) == boardSize {
+            return player
+        }
+        return 0
+    }
+}
